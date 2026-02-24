@@ -68,13 +68,6 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-**iptables-persistent** (one-time — preserves Docker's iptables rules across reboots):
-
-```bash
-sudo apt install iptables-persistent
-sudo netfilter-persistent save
-```
-
 **VS Code** with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers), and **Git**.
 
 ---
@@ -98,33 +91,36 @@ mkdir -p ~/Workspace/<YOUR_FOLDER>
 
 ---
 
-### 4. Configure Credentials and Start the MCP Atlassian Server
+### 4. Configure `.env` and Start the Stack
 
-The MCP server must be running on the host **before** opening the dev container.
-
-**Getting your tokens:**
-- Jira: Profile → Security → **Create API token** at `https://hosting-jira.1and1.org`
-- Confluence: Profile → Security → **Create API token** at `https://confluence.united-internet.org`
-
-Edit the `.env` file in the repository root and fill in your tokens:
+Edit the `.env` file in the repository root:
 
 ```bash
 # .env
+
+# Workspace folder to mount into the dev container
+WORKSPACE_PATH=/home/<YOUR_USERNAME>/Workspace/<YOUR_FOLDER>
+
+# Atlassian URLs
 JIRA_URL=https://hosting-jira.1and1.org
-JIRA_PERSONAL_TOKEN=<your-jira-personal-token>
 CONFLUENCE_URL=https://confluence.united-internet.org
+
+# Personal access tokens
+# Jira: Profile → Security → Create API token at https://hosting-jira.1and1.org
+# Confluence: Profile → Security → Create API token at https://confluence.united-internet.org
+JIRA_PERSONAL_TOKEN=<your-jira-personal-token>
 CONFLUENCE_PERSONAL_TOKEN=<your-confluence-personal-token>
 ```
 
-Then start the server:
+> **Security:** Never commit `.env` with real tokens. Add `.env` to `.gitignore`.
+
+Then start the full stack (MCP server + dev container):
 
 ```bash
-./start-mcp-atlassian.sh
+docker-compose up -d
 ```
 
-The script installs `uv`/`uvx` if missing, loads credentials from `.env`, and launches the MCP server as a background daemon on port 9000. It is safe to run multiple times — it skips startup if the server is already running.
-
-Verify:
+Verify the MCP server is up:
 
 ```bash
 curl http://localhost:9000/sse
@@ -133,19 +129,7 @@ curl http://localhost:9000/sse
 
 ---
 
-### 5. Update `devcontainer.json`
-
-```json
-"workspaceMount": "source=/home/<YOUR_USERNAME>/Workspace/<YOUR_FOLDER>,target=/workspace,type=bind,consistency=delegated",
-"CONFLUENCE_PERSONAL_TOKEN": "<your-confluence-token>",
-"JIRA_PERSONAL_TOKEN": "<your-jira-token>"
-```
-
-> **Security:** Never commit `devcontainer.json` with real tokens. Use `${localEnv:JIRA_PERSONAL_TOKEN}` to read from host environment variables instead.
-
----
-
-### 6. Open the Dev Container
+### 5. Open the Dev Container
 
 In VS Code: `Ctrl+Shift+P` → **Dev Containers: Reopen in Container**
 
@@ -238,33 +222,36 @@ On macOS, `172.17.0.1` is **not** the host IP — Docker Desktop uses a separate
 
 ---
 
-### 5. Configure Credentials and Start the MCP Atlassian Server
+### 5. Configure `.env` and Start the Stack
 
-The MCP server must be running on the host **before** opening the dev container.
-
-**Getting your tokens:**
-- Jira: Profile → Security → **Create API token** at `https://hosting-jira.1and1.org`
-- Confluence: Profile → Security → **Create API token** at `https://confluence.united-internet.org`
-
-Edit the `.env` file in the repository root and fill in your tokens:
+Edit the `.env` file in the repository root. On macOS, home directories are under `/Users/`:
 
 ```bash
 # .env
+
+# Workspace folder to mount into the dev container
+WORKSPACE_PATH=/Users/<YOUR_USERNAME>/Workspace/<YOUR_FOLDER>
+
+# Atlassian URLs
 JIRA_URL=https://hosting-jira.1and1.org
-JIRA_PERSONAL_TOKEN=<your-jira-personal-token>
 CONFLUENCE_URL=https://confluence.united-internet.org
+
+# Personal access tokens
+# Jira: Profile → Security → Create API token at https://hosting-jira.1and1.org
+# Confluence: Profile → Security → Create API token at https://confluence.united-internet.org
+JIRA_PERSONAL_TOKEN=<your-jira-personal-token>
 CONFLUENCE_PERSONAL_TOKEN=<your-confluence-personal-token>
 ```
 
-Then start the server:
+> **Security:** Never commit `.env` with real tokens. Add `.env` to `.gitignore`.
+
+Then start the full stack (MCP server + dev container):
 
 ```bash
-./start-mcp-atlassian.sh
+docker-compose up -d
 ```
 
-The script installs `uv`/`uvx` if missing, loads credentials from `.env`, and launches the MCP server as a background daemon on port 9000. It is safe to run multiple times — it skips startup if the server is already running.
-
-Verify:
+Verify the MCP server is up:
 
 ```bash
 curl http://localhost:9000/sse
@@ -273,21 +260,7 @@ curl http://localhost:9000/sse
 
 ---
 
-### 6. Update `devcontainer.json`
-
-On macOS, home directories are under `/Users/`, not `/home/`:
-
-```json
-"workspaceMount": "source=/Users/<YOUR_USERNAME>/Workspace/<YOUR_FOLDER>,target=/workspace,type=bind,consistency=delegated",
-"CONFLUENCE_PERSONAL_TOKEN": "<your-confluence-token>",
-"JIRA_PERSONAL_TOKEN": "<your-jira-token>"
-```
-
-> **Security:** Never commit `devcontainer.json` with real tokens. Use `${localEnv:JIRA_PERSONAL_TOKEN}` to read from host environment variables instead.
-
----
-
-### 7. Open the Dev Container
+### 6. Open the Dev Container
 
 In VS Code: `Cmd+Shift+P` → **Dev Containers: Reopen in Container**
 
@@ -296,7 +269,7 @@ In VS Code: `Cmd+Shift+P` → **Dev Containers: Reopen in Container**
 
 ---
 
-### 8. Authenticate Claude Code (first time only)
+### 7. Authenticate Claude Code (first time only)
 
 ```bash
 claude
@@ -306,7 +279,7 @@ Follow the browser login flow. Credentials are stored in the `/home/node/.claude
 
 ---
 
-### 9. Verify
+### 8. Verify
 
 ```bash
 claude mcp list                          # should show: mcp-atlassian
