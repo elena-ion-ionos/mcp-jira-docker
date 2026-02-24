@@ -1,0 +1,50 @@
+{
+  "name": "Claude Code Sandbox",
+  // Use the docker-compose stack so mcp-atlassian starts automatically
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "devcontainer",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "jetbrains": {
+      "settings": {
+        "com.intellij:app:Vcs-Log-App-Settings.show_changes_from_parents": true,
+        "com.intellij:app:VcsApplicationSettings.patch_storage_location": "/home/eion/Workspace/Tasks"
+      }
+    },
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh"
+          }
+        }
+      }
+    }
+  },
+  "remoteUser": "node",
+  "mounts": [
+    "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
+    "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
+  ],
+  "initializeCommand": "bash ${localWorkspaceFolder}/start-mcp-atlassian.sh",
+  "workspaceFolder": "/workspace/mcpJiraDockere",
+  "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
+  "postStartCommand": "bash /workspace/.devcontainer/post-start.sh",
+  "waitFor": "postStartCommand"
+}

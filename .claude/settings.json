@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uvx:*)",
+      "Bash(/home/node/.local/bin/mcp-atlassian:*)",
+      "Bash(npx mcp-atlassian:*)",
+      "Bash(mcp-atlassian:*)",
+      "Bash(curl:*)",
+      "Bash(sh)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -m pip install:*)",
+      "Bash(apt-get install:*)",
+      "Bash(sudo apt-get install:*)",
+      "Bash(sudo apt-get update:*)",
+      "Bash(pip:*)",
+      "Bash(python3:*)",
+      "Bash(echo:*)",
+      "Bash(dpkg --print-architecture:*)",
+      "Bash(tar:*)",
+      "Bash(export PATH=\"/home/node/.local/bin:$PATH\")",
+      "Bash(uv:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp:*)",
+      "Bash(sudo bash -c ':*)",
+      "Bash(sudo ln:*)",
+      "Bash(mount:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}

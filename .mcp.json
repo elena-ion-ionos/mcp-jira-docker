@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "atlassian-local": {
+      "type": "sse",
+      "url": "http://host.docker.internal:9000/sse"
+    }
+  }
+}
+

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__atlassian-local__jira_get_all_projects",
+      "mcp__mcp-atlassian__jira_get_all_projects",
+      "mcp__atlassian-local__jira_get_issue",
+      "mcp__atlassian-local__jira_create_issue",
+      "mcp__atlassian-local__jira_create_issue_link",
+      "mcp__atlassian-local__jira_get_link_types",
+      "mcp__atlassian-local__jira_update_issue",
+      "mcp__atlassian-local__jira_search_fields",
+      "mcp__atlassian-local__jira_get_field_options"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "atlassian-local"
+  ]
+}

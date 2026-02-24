@@ -1,0 +1,84 @@
+version: "3.9"
+
+services:
+
+  # Runs once at startup to add iptables rules on the host
+  # Uses network_mode: host + privileged so it can modify host iptables
+  fw-init:
+    image: alpine
+    container_name: fw-init
+    restart: "no"
+    network_mode: host
+    privileged: true
+    environment:
+      - MCP_ATLASSIAN_PORT=${MCP_ATLASSIAN_PORT:-9000}
+    volumes:
+      - ./fw-init.sh:/fw-init.sh:ro
+    command: ["sh", "-c", "apk add --no-cache iptables iproute2 && sh /fw-init.sh"]
+
+  mcp-atlassian:
+    image: ghcr.io/astral-sh/uv:python3.12-alpine
+    container_name: mcp-atlassian
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      fw-init:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      - MCP_ATLASSIAN_PORT=${MCP_ATLASSIAN_PORT:-9000}
+    volumes:
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+    command: ["sh", "-c", "uvx mcp-atlassian --transport sse --port ${MCP_ATLASSIAN_PORT:-9000} --host 0.0.0.0"]
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "echo > /dev/tcp/localhost/${MCP_ATLASSIAN_PORT:-9000}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  devcontainer:
+    build:
+      context: .devcontainer
+      dockerfile: Dockerfile
+      args:
+        TZ: ${TZ:-America/Los_Angeles}
+        CLAUDE_CODE_VERSION: latest
+        GIT_DELTA_VERSION: "0.18.2"
+        ZSH_IN_DOCKER_VERSION: "1.2.0"
+    container_name: devcontainer
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - claude-code-bashhistory:/commandhistory
+      - claude-code-config:/home/node/.claude
+      - ${WORKSPACE_PATH:-/home/eion/Workspace/mcpJiraDockere}:/workspace:delegated
+    working_dir: /workspace
+    environment:
+      NODE_OPTIONS: "--max-old-space-size=4096"
+      CLAUDE_CONFIG_DIR: "/home/node/.claude"
+      POWERLEVEL9K_DISABLE_GITSTATUS: "true"
+      CONFLUENCE_URL: ${CONFLUENCE_URL}
+      CONFLUENCE_PERSONAL_TOKEN: ${CONFLUENCE_PERSONAL_TOKEN}
+      JIRA_URL: ${JIRA_URL}
+      JIRA_PERSONAL_TOKEN: ${JIRA_PERSONAL_TOKEN}
+      MCP_ATLASSIAN_PORT: ${MCP_ATLASSIAN_PORT:-9000}
+      MCP_ATLASSIAN_URL: "http://host.docker.internal:${MCP_ATLASSIAN_PORT:-9000}"
+    extra_hosts:
+      - "host.docker.internal:172.20.0.1"  # ← hardcoded to match network below
+    command: sleep infinity
+
+volumes:
+  claude-code-bashhistory:
+  claude-code-config:
+  uv-cache:
+
+# ── Fixed subnet so host.docker.internal always resolves correctly ──
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
