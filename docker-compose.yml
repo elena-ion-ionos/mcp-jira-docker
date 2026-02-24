@@ -54,7 +54,7 @@ services:
     volumes:
       - claude-code-bashhistory:/commandhistory
       - claude-code-config:/home/node/.claude
-      - ${WORKSPACE_PATH:-/home/eion/Workspace/mcpJiraDockere}:/workspace:delegated
+      - ${WORKSPACE_PATH:-/home/eion/Workspace/mcp-jira-docker}:/workspace:delegated
     working_dir: /workspace
     environment:
       NODE_OPTIONS: "--max-old-space-size=4096"
@@ -67,7 +67,7 @@ services:
       MCP_ATLASSIAN_PORT: ${MCP_ATLASSIAN_PORT:-9000}
       MCP_ATLASSIAN_URL: "http://host.docker.internal:${MCP_ATLASSIAN_PORT:-9000}"
     extra_hosts:
-      - "host.docker.internal:172.20.0.1"  # ← hardcoded to match network below
+      - "host.docker.internal:host-gateway"
     command: sleep infinity
 
 volumes:
@@ -75,10 +75,4 @@ volumes:
   claude-code-config:
   uv-cache:
 
-# ── Fixed subnet so host.docker.internal always resolves correctly ──
-networks:
-  default:
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
-          gateway: 172.20.0.1
+# Let Docker assign the subnet automatically to avoid conflicts on reboot

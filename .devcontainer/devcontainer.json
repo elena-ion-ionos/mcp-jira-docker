@@ -43,7 +43,7 @@
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
   ],
   "initializeCommand": "bash ${localWorkspaceFolder}/start-mcp-atlassian.sh",
-  "workspaceFolder": "/workspace/mcpJiraDockere",
+  "workspaceFolder": "/workspace/mcp-jira-docker",
   "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
   "postStartCommand": "bash /workspace/.devcontainer/post-start.sh",
   "waitFor": "postStartCommand"

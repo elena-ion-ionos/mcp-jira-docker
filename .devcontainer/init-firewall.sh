@@ -105,11 +105,9 @@ iptables -A INPUT -s "$HOST_NETWORK" -j ACCEPT
 iptables -A OUTPUT -d "$HOST_NETWORK" -j ACCEPT
 
 # Allow host gateway so devcontainer can reach mcp-atlassian on the host.
-# Try /etc/hosts first (most reliable), fall back to default route gateway.
-HOST_GW=$(awk '/host\.docker\.internal/ {print $1}' /etc/hosts | head -1)
-if [ -z "$HOST_GW" ]; then
-    HOST_GW=$(ip route | awk '/default/ {print $3}' | head -1)
-fi
+# Use the default route gateway — this is always the correct host IP
+# regardless of what host.docker.internal resolves to in /etc/hosts.
+HOST_GW=$(ip route | awk '/default/ {print $3}' | head -1)
 if [ -n "$HOST_GW" ]; then
     echo "Allowing host gateway ($HOST_GW) for MCP access..."
     ipset add allowed-domains "$HOST_GW"
