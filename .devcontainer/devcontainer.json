@@ -8,7 +8,7 @@
     "jetbrains": {
       "settings": {
         "com.intellij:app:Vcs-Log-App-Settings.show_changes_from_parents": true,
-        "com.intellij:app:VcsApplicationSettings.patch_storage_location": "/home/eion/Workspace/Tasks"
+        "com.intellij:app:VcsApplicationSettings.patch_storage_location": "/home/eion/Workspace/Projects/mcp-jira-docker"
       }
     },
     "vscode": {
@@ -43,7 +43,7 @@
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
   ],
   "initializeCommand": "bash ${localWorkspaceFolder}/start-mcp-atlassian.sh",
-  "workspaceFolder": "/workspace/mcp-jira-docker",
+  "workspaceFolder": "/Workspace/Projects/mcp-jira-docker",
   "postCreateCommand": "bash /workspace/.devcontainer/post-create.sh",
   "postStartCommand": "bash /workspace/.devcontainer/post-start.sh",
   "waitFor": "postStartCommand"

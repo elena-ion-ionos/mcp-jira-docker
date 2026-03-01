@@ -1,0 +1,54 @@
+# S3 Ticket Template
+# Based on: VDC-19553
+# Project: VDC (all S3 tickets go to the VDC project)
+
+---
+
+## Fields
+
+- **Project:** VDC
+
+- **Summary:** `[S3 Key Management] - <Short descriptive title>`
+- **Issue Type:** Task
+- **Priority:** Critical
+- **Labels:** s3-key-management-service
+- **Assignee:** Unassigned
+- **Reporter:** <your name>
+- **Executed by:** Storage Provisioning Development RO
+- **Component/s:** s3-key-management-service
+
+---
+
+## Description
+
+### **Task**
+
+**As a** <role / product manager / platform owner>,
+**I want** <the system/component/documentation to do something>,
+**so that** <business/technical benefit>.
+
+**Importance:**
+<Explain why this task matters — reliability, customer experience, incident prevention, etc.>
+
+----
+### **Context**
+
+<Describe the background and current state. Explain what is missing or broken, which teams are involved, and what the deliverable is. Reference any related incidents or known issues (e.g., INC-XXXXXX).>
+
+----
+### **Recommended Steps**
+
+1. <Step 1>
+2. <Step 2>
+3. <Step 3>
+4. <Review with relevant team members for accuracy>
+5. <Publish / deploy / release and link to knowledge base or confluence>
+
+----
+### **Acceptance Criteria**
+
+- **(x) Specific:** <What exactly must be delivered — workflows, scenarios, endpoints, test cases, etc.>
+- **(x) Measurable:** <How completeness is verified — coverage percentage, team sign-off, test results, etc.>
+- **(x) Achievable:** <Completed within one sprint by collaborating across relevant teams.>
+- **(x) Relevant:** <Applies to S3 Key Management / object storage / Cloudian / Ceph — scope boundary.>
+- **(x) Time-bound:** The enhanced selection logic is available in the next provisioning engine release.

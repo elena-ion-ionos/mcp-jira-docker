@@ -1,0 +1,33 @@
+# Backup Ticket Template
+# Based on: VDC-13554
+# Project: VDC (all Backup tickets go to the VDC project)
+
+---
+
+## Fields
+
+- **Project:** VDC
+
+- **Summary:** `[MS Backup] - <Short descriptive title>`
+- **Issue Type:** Story
+- **Priority:** Major
+- **Labels:** Backup
+- **Assignee:** Unassigned
+- **Reporter:** <your name>
+- **Executed by:** Storage Provisioning Development RO
+- **Component/s:** backup-service
+
+---
+
+## Description
+
+### **User Story**
+
+<Describe the functionality to be implemented or extracted. Reference the relevant class, endpoint, or service (e.g., `com/ionos/api/rest/v5/handler/BackupUnitHandlerV5`).>
+
+----
+### **Acceptance Criteria**
+
+- (/) <Concrete deliverable 1 — e.g., Add/Extract/Implement <feature> into backup-microservice>
+- (/) <Concrete deliverable 2>
+- (/) <Unit/integration tests cover the new functionality>

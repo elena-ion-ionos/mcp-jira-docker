@@ -1,0 +1,47 @@
+# VDC Ticket Template
+# Based on: VDC-20244
+
+---
+
+## Fields
+
+- **Summary:** `[Problem] - <Short descriptive title>`
+- **Issue Type:** Improvement
+- **Priority:** Major
+- **Labels:** pre-refined
+- **Assignee:** Unassigned
+- **Reporter:** <your name>
+- **Executed by:** Storage Provisioning Development RO
+- **Component/s:** provisioning-engine
+
+---
+
+## Description
+
+### **User Story**
+
+**As a** <role / platform owner>,
+**I want** <the system/component to do something>,
+**so that** <business/technical benefit>.
+
+----
+### **Context**
+
+<Describe the background and current behavior. Explain what the problem is, why it exists, and what constraints or configurations are relevant. Include any relevant thresholds, configurations, or existing mechanisms.>
+
+----
+### **Acceptance Criteria (SMART)**
+
+- **(x) Specific:**
+  - (x) <Concrete condition 1 that must be true>
+  - (x) <Concrete condition 2 that must be true>
+
+- **(x) Measurable:**
+  - (x) <Observable/measurable outcome 1>
+  - (x) <Observable/measurable outcome 2>
+
+- **(x) Achievable:** <The change reuses/extends existing mechanisms without altering safety constraints.>
+
+- **(x) Relevant:** <Explain why this matters — throughput, reliability, customer experience, etc.>
+
+- **(x) Time-bound:** The enhanced selection logic is available in the next provisioning engine release.

@@ -1,0 +1,9 @@
+{
+  "name": "improve",
+  "version": "1.0.0",
+  "description": "Code improvement pipeline with specialized agents for inspection, fixing, QA, and shipping code improvements",
+  "author": {
+    "name": "Your Name",
+    "email": "your@email.com"
+  }
+}

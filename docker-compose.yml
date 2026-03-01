@@ -54,7 +54,7 @@ services:
     volumes:
       - claude-code-bashhistory:/commandhistory
       - claude-code-config:/home/node/.claude
-      - ${WORKSPACE_PATH:-/home/eion/Workspace/mcp-jira-docker}:/workspace:delegated
+      - ${WORKSPACE_PATH:-/home/eion/Workspace/Projects/mcp-jira-docker}:/workspace:delegated
     working_dir: /workspace
     environment:
       NODE_OPTIONS: "--max-old-space-size=4096"
